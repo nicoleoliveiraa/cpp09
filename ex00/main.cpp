@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 09:26:07 by nsouza-o          #+#    #+#             */
-/*   Updated: 2024/12/17 14:49:15 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:46:10 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 int main(int ac, char** av)
 {
-	BitcoinExchange mybtc(ac, av);
-
+	try
+	{
+		BitcoinExchange mybtc(ac, av);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << "\033[1m\033[33m[ERROR]: \033[0m" << e.what() << std::endl;
+	}
 }

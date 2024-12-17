@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 09:29:01 by nsouza-o          #+#    #+#             */
-/*   Updated: 2024/12/17 16:33:34 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:22:24 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 class BitcoinExchange {
 private:
-	// std::map<std::string, float> _input;
+	std::ifstream _inFile;
 	std::map<std::string, float> _dataBase;
 	//std::map<std::string, float> _result;
 	BitcoinExchange();
@@ -36,6 +36,10 @@ public:
 	//void inputParser(std::string input);
 	void readDataBaseFile(std::string file);
 	void openInputFile(std::string file);
+	void readAndCalculate();
+	size_t validateSyntax(std::string& line);
+	bool BitcoinExchange::validateDate(std::string& date);
+	void calculate(std::string date, float nbr);
 };
 
 #endif // BITCOINEXCHANGE_HPP

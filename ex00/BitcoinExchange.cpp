@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 09:39:04 by nsouza-o          #+#    #+#             */
-/*   Updated: 2024/12/17 16:33:51 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:22:45 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ BitcoinExchange::BitcoinExchange(int ac, char** av)
 	if (ac != 2)
 		throw std::runtime_error("BTC has to take a parameters with the input file.");
 	readDataBaseFile("data.csv");
-	(void)av;
-	//openInputFile(av[1]);
+	openInputFile(av[1]);
 }
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange& src)
@@ -63,16 +62,49 @@ void BitcoinExchange::readDataBaseFile(std::string file)
 
 void BitcoinExchange::openInputFile(std::string file)
 {
-	std::ifstream inFile;
-	inFile.open(file.c_str(), std::ios::out);
-	if (!inFile.good())
+	_inFile.open(file.c_str(), std::ios::out);
+	if (!_inFile.good())
 		throw std::runtime_error("Can't open Input file.");
-	
+}
+
+void BitcoinExchange::readAndCalculate()
+{
 	std::string line;
-	while (getline(inFile, line))
+	while (getline(_inFile, line))
 	{
 		if (!line.compare("date | value"))
+			continue ;
+		size_t pos = validateSyntax(line);
+		if (!pos)
+		{
+			std::cout << "Error: bad input => " + line << std::endl;
 			continue;
-		
+		}
+		std::string date = line.substr(0, pos);
+		if (!validateDate(date))
+			continue;
+		std::string nbr = line.substr(pos + 3, line.size() - 1);
+		float nbrFloat = atof(nbr.c_str());
+		calculate(date, nbrFloat);
 	}
+}
+
+size_t BitcoinExchange::validateSyntax(std::string& line)
+{
+	size_t pos = line.find(" ");
+	if (pos == std::string::npos)
+		return (NULL);
+	if (line[pos + 1] != '|' || line[pos + 2] != ' ')
+		return (NULL);
+	return pos;
+}
+
+bool BitcoinExchange::validateDate(std::string& date)
+{
+	
+}
+
+void BitcoinExchange::calculate(std::string date, float nbr)
+{
+	
 }
