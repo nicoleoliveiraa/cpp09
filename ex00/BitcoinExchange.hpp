@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 09:29:01 by nsouza-o          #+#    #+#             */
-/*   Updated: 2024/12/16 10:17:50 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2024/12/17 16:33:34 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define BITCOINEXCHANGE_HPP
 
 #include <iostream>
+#include <cstdlib>
+#include <iomanip>
 #include <exception>
 #include <fstream>
 #include <string>
@@ -21,8 +23,9 @@
 
 class BitcoinExchange {
 private:
-	std::map<std::string, float> _input;
+	// std::map<std::string, float> _input;
 	std::map<std::string, float> _dataBase;
+	//std::map<std::string, float> _result;
 	BitcoinExchange();
 public:
 	BitcoinExchange(int ac, char** av);
@@ -32,7 +35,7 @@ public:
 
 	//void inputParser(std::string input);
 	void readDataBaseFile(std::string file);
-	void readInputFile(std::string file);
+	void openInputFile(std::string file);
 };
 
 #endif // BITCOINEXCHANGE_HPP

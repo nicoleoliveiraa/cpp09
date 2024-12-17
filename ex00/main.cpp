@@ -6,12 +6,14 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 09:26:07 by nsouza-o          #+#    #+#             */
-/*   Updated: 2024/12/16 09:29:08 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:49:15 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "BitcoinExchange.hpp"
 
 int main(int ac, char** av)
 {
-	
+	BitcoinExchange mybtc(ac, av);
+
 }
