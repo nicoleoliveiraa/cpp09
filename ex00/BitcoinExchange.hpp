@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 09:29:01 by nsouza-o          #+#    #+#             */
-/*   Updated: 2024/12/17 18:22:24 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2024/12/18 18:48:16 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <climits>
 #include <iomanip>
 #include <exception>
 #include <fstream>
@@ -38,8 +39,8 @@ public:
 	void openInputFile(std::string file);
 	void readAndCalculate();
 	size_t validateSyntax(std::string& line);
-	bool BitcoinExchange::validateDate(std::string& date);
-	void calculate(std::string date, float nbr);
+	bool validateDate(std::string date);
+	void calculate(std::string date, double nbr);
 };
 
 #endif // BITCOINEXCHANGE_HPP
