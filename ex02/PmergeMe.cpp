@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 11:30:56 by nsouza-o          #+#    #+#             */
-/*   Updated: 2024/12/27 15:43:41 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/01 13:45:07 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,23 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& src)
 
 PmergeMe::~PmergeMe(){}
 
+void PmergeMe::_jacobsthalSequence(size_t size)
+{
+	if (!_jacobsthalNumbers.empty())
+		_jacobsthalNumbers.clear();
+
+	size_t i = 1;
+	// size_t j;	
+	for (size_t j = 3; j <= size; )
+	{
+		_jacobsthalNumbers.push_back(j);
+		size_t aux = i;
+		i = j;
+		j = i + (aux * 2);
+	}
+}
+
+
 void PmergeMe::_sortVector(char **argv)
 {
 	std::vector<int> vec;
@@ -39,11 +56,14 @@ void PmergeMe::_sortVector(char **argv)
 		i++;		
 	}
 
-	// for (size_t i = 0; i < vec.size(); i++)
-	// 	std::cout << vec[i] << std::endl;
+	_jacobsthalSequence(vec.size());
 	
-	_fordJohnsonAlgorithm(vec, 1);
+	// for (size_t i = 0; i < _jacobsthalNumbers.size(); i++)
+	// 	std::cout << _jacobsthalNumbers[i] << std::endl;
+	
+	_fordJohnsonAlgorithm(vec, 2);
 
-	for (size_t i = 0; i < vec.size(); i++)
-		std::cout << "a" << vec[i] << std::endl;
+
+	// for (size_t i = 0; i < vec.size(); i++)
+	// 	std::cout << "-> " << vec[i] << std::endl;
 }
