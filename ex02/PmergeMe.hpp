@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:56:17 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/01 13:47:47 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:32:17 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ template <typename T> void PmergeMe::_insertion(T& container, size_t nbrElem)
 {
 	typedef typename T::iterator iterator;
 
+	/* division in main, pend and odd */	
+	
 	T main;
 	T pend;
 	T odd;
@@ -118,31 +120,42 @@ template <typename T> void PmergeMe::_insertion(T& container, size_t nbrElem)
 	if (secondEnd != container.end())
 		odd.insert(odd.end(), secondEnd, container.end());
 	
-	iterator pendBegin = pend.begin();
-	iterator pendEnd = pendBegin + nbrElem;
-
+	/* insertion */
 	
-	for (size_t i = 0; i < _jacobsthalNumbers.size(); i++)
+	int elementCount = (pend.size() / nbrElem);
+	int jn = 0;
+	for (int i = elementCount; i > 0; )
+	{
+		jn = findJacobsthalNbr(elementCount + 1, jn);
+		i = _jacobsthalInsertion(main, pend, jn);
+	}
+	// std::vector<T> pendVec;
+	// pendVec.push_back(pend.begin());
+	// pendVec.push_back(pendVec[0] + nbrElem);
+	
+	
+	//iterator pendBegin = pend.begin();
+//	iterator pendEnd = pendBegin + nbrElem;
+/* 
+	int i = find
+	for (i; i < _jacobsthalNumbers.size(); i++)
 	{
 		if (pend[(_jacobsthalNumbers[i] - 1) * nbrElem])
-	}	
+	}	 */
 
 	
-	std::cout << *secondEnd << std::endl;
+	// for (size_t i = 0; i < main.size(); i++)
+	// 	std::cout << "main-> " << main[i] << std::endl;
 
-	
-	for (size_t i = 0; i < main.size(); i++)
-		std::cout << "main-> " << main[i] << std::endl;
+	// std::cout << std::endl;
 
-	std::cout << std::endl;
+	// for (size_t i = 0; i < pend.size(); i++)
+	// 	std::cout << "pend-> " << pend[i] << std::endl;
 
-	for (size_t i = 0; i < pend.size(); i++)
-		std::cout << "pend-> " << pend[i] << std::endl;
+	// std::cout << std::endl;
 
-	std::cout << std::endl;
-
-	for (size_t i = 0; i < odd.size(); i++)
-		std::cout << "odd-> " << odd[i] << std::endl;
+	// for (size_t i = 0; i < odd.size(); i++)
+	// 	std::cout << "odd-> " << odd[i] << std::endl;
 
 	
 }
