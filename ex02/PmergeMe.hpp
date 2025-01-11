@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:56:17 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/09 18:32:17 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/11 19:35:46 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ private:
 	template <typename T> void _fordJohnsonAlgorithm(T& container, size_t nbrElem);
 	template <typename T> void _swapPairs(T& container, size_t nbrElem);
 	template <typename T> void _insertion(T& container, size_t nbrElem);
-	// template <typename T> void _jacobsthalInsertion(T& main, T& pend, T& odd, size_t nbrElem);
+	template <typename T> int _jacobsthalInsertion(T& main, T& pend, int jn, size_t nbrElem);
 
 	void _jacobsthalSequence(size_t size);
+	int findJacobsthalNbr(int elementCount, int jn);
 	
 public:
 	PmergeMe();
@@ -75,12 +76,32 @@ template <typename T> void PmergeMe::_swapPairs(T& container, size_t nbrElem)
 
 }
 
-/* template <typename T> void PmergeMe::_jacobsthalInsertion(T& main, T& pend, T& odd, size_t nbrElem)
+template <typename T> int PmergeMe::_jacobsthalInsertion(T& main, T& pend, int jn, size_t nbrElem)
 {
-	typedef typename T::iterator iterator;
+	// typedef typename T::iterator iterator;
 	
+	int jacobsthalNbr;
 	
-} */
+	if (jn == 0 )
+		jacobsthalNbr = 0;
+	else if (jn == -1)
+	jacobsthalNbr = _jacobsthalNumbers[jn] - 2;
+	
+	T mainToSort;
+	for (size_t i = nbrElem - 1; i < main.size(); )
+	{
+		//mainToSort.pushback(main[i]);
+		i = i + nbrElem;
+	}
+	
+	for (size_t j = 0; j < mainToSort.size(); j++)
+	{
+		std::cout << mainToSort[j] << std::endl;
+	}
+	//std::pair<iterator, iterator> pendElement;
+	(void)pend;
+	
+}
 
 template <typename T> void PmergeMe::_insertion(T& container, size_t nbrElem)
 {
@@ -124,11 +145,18 @@ template <typename T> void PmergeMe::_insertion(T& container, size_t nbrElem)
 	
 	int elementCount = (pend.size() / nbrElem);
 	int jn = 0;
-	for (int i = elementCount; i > 0; )
-	{
-		jn = findJacobsthalNbr(elementCount + 1, jn);
-		i = _jacobsthalInsertion(main, pend, jn);
-	}
+	// for (int i = elementCount; i > 0; )
+	// {
+	// 	jn = findJacobsthalNbr(elementCount + 1, jn);
+	// 	i = _jacobsthalInsertion(main, pend, jn);
+	// }
+	jn = findJacobsthalNbr(elementCount + 1, jn);
+	_jacobsthalInsertion(main, pend, jn, nbrElem);
+	// std::cout << "aqui" << std::endl;
+	// _oddInsertion(main, odd);
+
+
+	
 	// std::vector<T> pendVec;
 	// pendVec.push_back(pend.begin());
 	// pendVec.push_back(pendVec[0] + nbrElem);
