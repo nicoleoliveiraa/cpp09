@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 11:30:56 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/18 20:45:35 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/18 21:05:52 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void PmergeMe::sortDeque(char **argv)
 	// std::cout << "\n\n" << deq.size() << "\n\n" << std::endl;
 	
 	_rangeSize = deq.size();
-	_printContainer(deq, BOLD_YELLOW, "Before:");	
+	_printContainer(deq, BOLD_YELLOW, "Before:");
 	_jacobsthalSequence(deq.size());
 	_fordJohnsonAlgorithm(deq, 1);
 	if (!is_sorted(deq))

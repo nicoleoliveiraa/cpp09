@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:56:17 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/18 20:21:15 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/18 21:17:04 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,12 @@ template <typename T> void PmergeMe::_populateContainer(T& container, char **arg
     }
 }
 
+template <typename T> T next(T it, int steps)
+{
+    std::advance(it, steps);
+    return it;
+}
+
 template <typename T> bool PmergeMe::is_sorted(const T& container)
 {
     if (container.size() == 0 || container.size() == 1)
@@ -110,35 +116,67 @@ template <typename T> bool PmergeMe::is_sorted(const T& container)
 
 template <typename T> void PmergeMe::_swapPairs(T& container, size_t nbrElem)
 {
+	// typedef typename T::iterator iterator;
+	
+	// iterator firstBegin = container.begin();
+	// iterator firstEnd = container.begin() + nbrElem - 1;
+
+	// iterator secondBegin = firstEnd + 1;
+	// iterator secondEnd = secondBegin + nbrElem - 1;
+
+	// size_t limit = container.size() % (nbrElem * 2);
+	// limit = container.size() - limit;
+	
+	// size_t i = 0;
+	// while (i < limit)
+	// {
+	// 	if (*firstEnd > *secondEnd)
+	// 	{
+	// 		for (iterator it = firstBegin; it <= firstEnd; it++)
+	// 		{
+	// 			std::iter_swap(it, secondBegin);
+	// 			secondBegin++;
+	// 		}
+	// 	}
+	// 	firstBegin = secondEnd + 1;
+	// 	firstEnd = firstBegin + nbrElem - 1;
+	// 	secondBegin = firstEnd + 1;
+	// 	secondEnd = secondBegin + nbrElem - 1;
+	// 	i = i + (nbrElem * 2);
+	// }
 	typedef typename T::iterator iterator;
-	
-	iterator firstBegin = container.begin();
-	iterator firstEnd = container.begin() + nbrElem - 1;
 
-	iterator secondBegin = firstEnd + 1;
-	iterator secondEnd = secondBegin + nbrElem - 1;
+    iterator firstBegin = container.begin();
+    iterator firstEnd = next(firstBegin, nbrElem - 1);
 
-	size_t limit = container.size() % (nbrElem * 2);
-	limit = container.size() - limit;
-	
-	size_t i = 0;
-	while (i < limit)
-	{
-		if (*firstEnd > *secondEnd)
-		{
-			for (iterator it = firstBegin; it <= firstEnd; it++)
-			{
-				std::iter_swap(it, secondBegin);
-				secondBegin++;
-			}
-		}
-		firstBegin = secondEnd + 1;
-		firstEnd = firstBegin + nbrElem - 1;
-		secondBegin = firstEnd + 1;
-		secondEnd = secondBegin + nbrElem - 1;
-		i = i + (nbrElem * 2);
-	}
+    iterator secondBegin = next(firstEnd, 1);
+    iterator secondEnd = next(secondBegin, nbrElem - 1);
 
+    size_t limit = container.size() % (nbrElem * 2);
+    limit = container.size() - limit;
+
+    size_t i = 0;
+    while (i < limit)
+    {
+        if (*firstEnd > *secondEnd)
+        {
+            iterator it1 = firstBegin;
+            iterator it2 = secondBegin;
+            while (it1 != next(firstEnd, 1))
+            {
+                std::iter_swap(it1, it2);
+                ++it1;
+                ++it2;
+            }
+        }
+
+        firstBegin = next(secondEnd, 1);
+        firstEnd = next(firstBegin, nbrElem - 1);
+        secondBegin = next(firstEnd, 1);
+        secondEnd = next(secondBegin, nbrElem - 1);
+
+        i += (nbrElem * 2);
+    }
 }
 
 template <typename T> int PmergeMe::_binarySearch(T& mainToSearch, int nbr, int jacobsthalNbr)
@@ -189,8 +227,9 @@ template <typename T> int PmergeMe::_pendInsertion(T& main, T& pend, int jn, siz
 		lastJacobsthal = _jacobsthalNumbers[jn - 1];
 	
 	/* make the mainToSearch with only with the targets */
+
 	T mainToSearch;
-	for (iterator it = main.begin() + nbrElem - 1; it < main.end(); it += nbrElem)
+	for (iterator it = main.begin() + nbrElem - 1; it < main.end(); std::advance(it, nbrElem)/* it += nbrElem */)
 		mainToSearch.insert(mainToSearch.end(), *it);
 	
 	/* insert pendElement into main */
@@ -372,11 +411,12 @@ template <typename T> void PmergeMe::_fordJohnsonAlgorithm(T& container, size_t 
 	if (container.size() / nbrElem < 2)
 		return ;
 	
+	// std::cout << BOLD_CYAN << "\n !!!! \n" << RESET << std::endl;	
 	_swapPairs(container, nbrElem);
+	// std::cout << BOLD_YELLOW << "level " << nbrElem << RESET << std::endl;
 
 	_fordJohnsonAlgorithm(container, nbrElem * 2); /* recursion */
 
-	// std::cout << BOLD_YELLOW << "level " << nbrElem << RESET << std::endl;
 	_insertion(container, nbrElem);
 }
 

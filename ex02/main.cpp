@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 14:42:19 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/18 20:26:37 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/18 21:16:19 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 	try
 	{
 		PmergeMe pmergeme;
-		// pmergeme.sortVector(argv);
+		pmergeme.sortVector(argv);
 		std::cout << std::endl;
 		pmergeme.sortDeque(argv);
 	}
