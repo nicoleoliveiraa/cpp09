@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 11:30:56 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/11 17:19:26 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/18 20:45:35 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& src)
 
 PmergeMe::~PmergeMe(){}
 
+size_t PmergeMe::getRangeSize(){return(_rangeSize);}
+
 void PmergeMe::_jacobsthalSequence(size_t size)
 {
 	if (!_jacobsthalNumbers.empty())
@@ -35,7 +37,6 @@ void PmergeMe::_jacobsthalSequence(size_t size)
 
 	size_t i = 1;
 	_jacobsthalNumbers.push_back(1);
-	// size_t j;	
 	for (size_t j = 3; j <= size; )
 	{
 		_jacobsthalNumbers.push_back(j);
@@ -44,40 +45,6 @@ void PmergeMe::_jacobsthalSequence(size_t size)
 		j = i + (aux * 2);
 	}
 }
-
-
-void PmergeMe::_sortVector(char **argv)
-{
-	std::vector<int> vec;
-
-	int i = 1;
-	while (argv[i])
-	{
-		vec.push_back(atoi(argv[i]));
-		i++;		
-	}
-
-	_jacobsthalSequence(vec.size());
-	// for (size_t i = 0; i < _jacobsthalNumbers.size(); i++)
-	// {
-	// 	std::cout << _jacobsthalNumbers[i] << std::endl;
-	// }
-	// std::cout << "---" << std::endl;
-	// std::cout << findJacobsthalNbr(vec.size(), 0) << " - " << _jacobsthalNumbers[findJacobsthalNbr(vec.size(), 0)] << std::endl;
-	// std::cout << findJacobsthalNbr(vec.size(), 1) << " - " << _jacobsthalNumbers[findJacobsthalNbr(vec.size(), 1)] << std::endl;
-	// std::cout << findJacobsthalNbr(vec.size(), 2) << " - " << _jacobsthalNumbers[findJacobsthalNbr(vec.size(), 2)] << std::endl;
-	// std::cout << findJacobsthalNbr(vec.size(), 3) << " - " << _jacobsthalNumbers[findJacobsthalNbr(vec.size(), 3)] << std::endl;
-	
-	// for (size_t i = 0; i < _jacobsthalNumbers.size(); i++)
-	// 	std::cout << _jacobsthalNumbers[i] << std::endl;
-	
-	_fordJohnsonAlgorithm(vec, 1);
-
-
-	// for (size_t i = 0; i < vec.size(); i++)
-	// 	std::cout << "-> " << vec[i] << std::endl;
-}
-
 
 int PmergeMe::findJacobsthalNbr(int elementCount, int jn)
 {
@@ -88,4 +55,56 @@ int PmergeMe::findJacobsthalNbr(int elementCount, int jn)
 	if (jn + 1 < static_cast<int>(_jacobsthalNumbers.size()) && _jacobsthalNumbers[jn + 1] <= elementCount)
 		return (jn + 1);
 	return (-1);
+}
+
+void PmergeMe::sortVector(char **argv)
+{
+	std::vector<int> vec;
+
+	clock_t startVec = clock();
+	
+	_populateContainer(vec, argv);
+	// std::cout << "\n\n" << vec.size() << "\n\n" << std::endl;
+
+	_rangeSize = vec.size();
+	_printContainer(vec, BOLD_GREEN, "Before:");
+	_jacobsthalSequence(vec.size());
+	_fordJohnsonAlgorithm(vec, 1);
+	if (!is_sorted(vec))
+        std::cout << "Vector was not sorted properly.\n";
+	if (vec.size() != _rangeSize)
+        std::cout << "Vector was not properly.\n";
+
+	_printContainer(vec, BOLD_GREEN, "After:");	
+
+	clock_t endVec = clock();
+	double elapsedVec = static_cast<double>(endVec - startVec) / CLOCKS_PER_SEC;
+	
+	std::cout << BOLD_RED << "Time to process" << " a range of " << _rangeSize << " elements with std::vector: " << RESET << elapsedVec << " us" << std::endl;
+}
+
+void PmergeMe::sortDeque(char **argv)
+{
+	std::deque<int> deq;
+	
+	clock_t startDeq = clock();
+	
+	_populateContainer(deq, argv);
+
+	// std::cout << "\n\n" << deq.size() << "\n\n" << std::endl;
+	
+	_rangeSize = deq.size();
+	_printContainer(deq, BOLD_YELLOW, "Before:");	
+	_jacobsthalSequence(deq.size());
+	_fordJohnsonAlgorithm(deq, 1);
+	if (!is_sorted(deq))
+        std::cout << "Deque was not sorted properly.\n";
+	if (deq.size() != _rangeSize)
+        std::cout << "Deque was not properly.\n" << deq.size() << " " << _rangeSize<< std::endl;
+	_printContainer(deq, BOLD_YELLOW, "After:");	
+
+	clock_t endDeq = clock();
+	double elapsedDeq = static_cast<double>(endDeq - startDeq) / CLOCKS_PER_SEC;
+	
+	std::cout << BOLD_RED << "Time to process" << " a range of " << _rangeSize << " elements with std::deque: " << RESET << elapsedDeq << " us" << std::endl;
 }
