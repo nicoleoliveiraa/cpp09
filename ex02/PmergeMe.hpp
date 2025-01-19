@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:56:17 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/19 15:42:47 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/19 16:03:35 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ template <typename T> void PmergeMe::_swapPairs(T& container, size_t nbrElem)
 	// 	i = i + (nbrElem * 2);
 	// }
 	typedef typename T::iterator iterator;
+	// std::cout << "uninitialised value !!! " << std::endl;
 
     iterator firstBegin = container.begin();
     iterator firstEnd = next(firstBegin, nbrElem - 1);
@@ -156,6 +157,7 @@ template <typename T> void PmergeMe::_swapPairs(T& container, size_t nbrElem)
     limit = container.size() - limit;
 
     size_t i = 0;
+	
     while (i < limit)
     {
         if (*firstEnd > *secondEnd)
@@ -172,6 +174,10 @@ template <typename T> void PmergeMe::_swapPairs(T& container, size_t nbrElem)
 
         firstBegin = next(secondEnd, 1);
         firstEnd = next(firstBegin, nbrElem - 1);
+
+		if (firstEnd > container.end())
+        	firstEnd = container.end();
+		
         secondBegin = next(firstEnd, 1);
         secondEnd = next(secondBegin, nbrElem - 1);
 
@@ -368,8 +374,6 @@ template <typename T> void PmergeMe::_insertion(T& container, size_t nbrElem)
 	
 	iterator secondBegin = firstEnd;
 	iterator secondEnd = next(secondBegin, nbrElem);
-
-	// std::cout << "uninitialised value !!! " << std::endl;
 
 	main.insert(main.end(), firstBegin, firstEnd);
 	main.insert(main.end(), secondBegin, secondEnd);
