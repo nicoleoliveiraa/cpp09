@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 11:30:56 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/19 16:03:44 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:38:11 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 PmergeMe::PmergeMe(){}
 
-PmergeMe::PmergeMe(const PmergeMe& src)
-{
-	*this = src;	
-}
+PmergeMe::PmergeMe(const PmergeMe& src){*this = src;}
 
 PmergeMe& PmergeMe::operator=(const PmergeMe& src)
 {
 	if (this != &src)
-		*this = src;
+	{
+		_jacobsthalNumbers = src._jacobsthalNumbers;
+		_rangeSize = src._rangeSize;		
+	}
 	return (*this);
 }
 
@@ -64,8 +64,6 @@ void PmergeMe::sortVector(char **argv)
 	clock_t startVec = clock();
 	
 	_populateContainer(vec, argv);
-	// std::cout << "\n\n" << vec.size() << "\n\n" << std::endl;
-
 	_rangeSize = vec.size();
 	_printContainer(vec, BOLD_GREEN, "Before:");
 	_jacobsthalSequence(vec.size());
@@ -80,27 +78,24 @@ void PmergeMe::sortVector(char **argv)
 	clock_t endVec = clock();
 	double elapsedVec = static_cast<double>(endVec - startVec) / CLOCKS_PER_SEC;
 	
-	std::cout << BOLD_RED << "Time to process" << " a range of " << _rangeSize << " elements with std::vector: " << RESET << elapsedVec << " us" << std::endl;
+	std::cout << BOLD_RED << "Time to process" << " a range of " << _rangeSize 
+			<< " elements with std::vector: " << RESET << std::fixed << std::setprecision(6) 
+			<< elapsedVec << " us" << std::endl;
 }
 
 void PmergeMe::sortDeque(char **argv)
 {
 	std::deque<int> deq;
 	
-    // std::cout << "\n!!!!\n";
 	clock_t startDeq = clock();
 	
-    // std::cout << "\n----\n";
 	_populateContainer(deq, argv);
-
-	// std::cout << "\n\n" << deq.size() << "\n\n" << std::endl;
-	
 	_rangeSize = deq.size();
 	// _printContainer(deq, BOLD_YELLOW, "Before:");
-
 	_jacobsthalSequence(deq.size());
 	_fordJohnsonAlgorithm(deq, 1);
-	// _printContainer(deq, BOLD_YELLOW, "After:");	
+	// _printContainer(deq, BOLD_YELLOW, "After:");
+	
 	if (!is_sorted(deq))
         std::cout << "Deque was not sorted properly.\n";
 	if (deq.size() != _rangeSize)
@@ -109,5 +104,7 @@ void PmergeMe::sortDeque(char **argv)
 	clock_t endDeq = clock();
 	double elapsedDeq = static_cast<double>(endDeq - startDeq) / CLOCKS_PER_SEC;
 	
-	std::cout << BOLD_RED << "Time to process" << " a range of " << _rangeSize << " elements with std::deque: " << RESET << elapsedDeq << " us" << std::endl;
+	std::cout << BOLD_RED << "Time to process" << " a range of " << _rangeSize 
+			<< " elements with std::deque: " << RESET << std::fixed << std::setprecision(6) 
+			<< elapsedDeq << " us" << std::endl;
 }

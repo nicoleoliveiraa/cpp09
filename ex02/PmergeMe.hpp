@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:56:17 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/19 16:03:35 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:40:53 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <iterator>
 #include <time.h>
+#include <iomanip>
 
 
 #define RESET       "\033[0m"
@@ -55,8 +56,6 @@ private:
 	template <typename T> int _binarySearch(T&mainToSearch, int nbr, int jacobsthalNbr);
 	template <typename T> static bool is_sorted(const T& container);
 
-
-
 	void _jacobsthalSequence(size_t size);
 	int findJacobsthalNbr(int elementCount, int jn);
 	
@@ -67,7 +66,6 @@ public:
 	~PmergeMe();
 	size_t getRangeSize();
 	
-
 	void sortVector(char **argv);
 	void sortDeque(char **argv);
 };
@@ -116,43 +114,15 @@ template <typename T> bool PmergeMe::is_sorted(const T& container)
 
 template <typename T> void PmergeMe::_swapPairs(T& container, size_t nbrElem)
 {
-	// typedef typename T::iterator iterator;
-	
-	// iterator firstBegin = container.begin();
-	// iterator firstEnd = container.begin() + nbrElem - 1;
-
-	// iterator secondBegin = firstEnd + 1;
-	// iterator secondEnd = secondBegin + nbrElem - 1;
-
-	// size_t limit = container.size() % (nbrElem * 2);
-	// limit = container.size() - limit;
-	
-	// size_t i = 0;
-	// while (i < limit)
-	// {
-	// 	if (*firstEnd > *secondEnd)
-	// 	{
-	// 		for (iterator it = firstBegin; it <= firstEnd; it++)
-	// 		{
-	// 			std::iter_swap(it, secondBegin);
-	// 			secondBegin++;
-	// 		}
-	// 	}
-	// 	firstBegin = secondEnd + 1;
-	// 	firstEnd = firstBegin + nbrElem - 1;
-	// 	secondBegin = firstEnd + 1;
-	// 	secondEnd = secondBegin + nbrElem - 1;
-	// 	i = i + (nbrElem * 2);
-	// }
 	typedef typename T::iterator iterator;
-	// std::cout << "uninitialised value !!! " << std::endl;
-
+	
     iterator firstBegin = container.begin();
     iterator firstEnd = next(firstBegin, nbrElem - 1);
 
     iterator secondBegin = next(firstEnd, 1);
     iterator secondEnd = next(secondBegin, nbrElem - 1);
 
+	/* exclude odd elements */
     size_t limit = container.size() % (nbrElem * 2);
     limit = container.size() - limit;
 
@@ -179,6 +149,9 @@ template <typename T> void PmergeMe::_swapPairs(T& container, size_t nbrElem)
         	firstEnd = container.end();
 		
         secondBegin = next(firstEnd, 1);
+		
+		if (secondBegin > container.end())
+        	break ;
         secondEnd = next(secondBegin, nbrElem - 1);
 
         i += (nbrElem * 2);
@@ -191,17 +164,10 @@ template <typename T> int PmergeMe::_binarySearch(T& mainToSearch, int nbr, int 
 
 	int left = 0;
 	int right = jacobsthalNbr - 1;
-	// std::cout << "\nATENÇAO OPEN\n"  << std::endl;
 
 	while (left <= right)
 	{
-		// std::cout << "\nATENÇAO OPEN1\n"  << std::endl;
-		// std::cout << "LEFT " << left << std::endl;
-		// std::cout << "RIGHT " << right << std::endl;
-		// std::cout << "main to search size " << mainToSearch.size() << std::endl;
-
 		int mid = left + (right - left) / 2; 
-		// std::cout << "mid " << mid << " nbr " << mainToSearch[mid] << std::endl;
 
 		if (mainToSearch[mid] == nbr)
 		{
@@ -209,14 +175,10 @@ template <typename T> int PmergeMe::_binarySearch(T& mainToSearch, int nbr, int 
 			break ;
 		}
 		mainToSearch[mid] < nbr ? left = mid + 1 : right = mid - 1;  
-		// std::cout << "\n\nATENÇAO CLOSE1\n\n" << std::endl;
-		
 	}
 		
-	// iterator toInsert = mainToSearch.begin() + left;
 	iterator toInsert = next(mainToSearch.begin(), left);
 	mainToSearch.insert(toInsert, nbr);
-	// std::cout << "\nATENÇAO CLOSE\n" << std::endl;
 
 	return (left);
 }
@@ -236,26 +198,21 @@ template <typename T> int PmergeMe::_pendInsertion(T& main, T& pend, int jn, siz
 	/* make the mainToSearch with only with the targets */
 
 	T mainToSearch;
-	for (iterator it = next(main.begin(), nbrElem - 1); it != main.end(); ) {
-    // Insira o elemento atual se não for o final
-    mainToSearch.insert(mainToSearch.end(), *it);
-    
-    // Avance o iterador em nbrElem passos, se possível
-    iterator nextIt = next(it, nbrElem);
-    if (nextIt <= main.end()) {
-        it = nextIt;
-    } else {
-        break;
-    }
-}
-
-
+	for (iterator it = next(main.begin(), nbrElem - 1); it != main.end(); ) 
+	{
+    	mainToSearch.insert(mainToSearch.end(), *it);
 	
-	/* insert pendElement into main */
-	// static int inserted;
+    	iterator nextIt = next(it, nbrElem);
+    	if (nextIt <= main.end())
+    	    it = nextIt;
+    	else
+    	    break;
+	}
+	
+	/* insert pendElement into main... */
 	int inThisTime = 0;
 
-	/* when there aren't enough elements to use the Jacobsthal sequence */
+	/* ...when there aren't enough elements to use the Jacobsthal sequence */
 	if (jn == 0 || jn == -1)
 	{
 	    int pendSize = static_cast<int>(pend.size());
@@ -266,6 +223,7 @@ template <typename T> int PmergeMe::_pendInsertion(T& main, T& pend, int jn, siz
 	
 	        int i = _binarySearch(mainToSearch, *pendElemEnd, mainToSearch.size());
 	
+			/* insertion */
 	        iterator toInsert = next(main.begin(), i * nbrElem);
 	        main.insert(toInsert, pendElemBegin, next(pendElemEnd, 1));
 	
@@ -276,11 +234,7 @@ template <typename T> int PmergeMe::_pendInsertion(T& main, T& pend, int jn, siz
 	    return (inserted);
 	}
 
-
-	// std::cout << "JN " << jacobsthalNbr << std::endl;
-	// std::cout << "last JN " << lastJacobsthal << std::endl;
-	
-	/* use Jacobsthal sequence */
+	/* ...using Jacobsthal sequence */
 	while (jacobsthalNbr > lastJacobsthal)
 	{
 	    int index = jacobsthalNbr - 2;
@@ -319,20 +273,15 @@ template <typename T> void PmergeMe::_oddInsertion(T& main, T& odd, size_t nbrEl
 		return ;
 		
 	T mainToSearch;
-	for (iterator it = next(main.begin(), nbrElem - 1); it != main.end(); it = next(it, nbrElem)) {
-    // Verifique se o iterador não ultrapassou o final do contêiner
-    if (it != main.end()) {
-        mainToSearch.insert(mainToSearch.end(), *it);
-    }
+	for (iterator it = next(main.begin(), nbrElem - 1); it != main.end(); it = next(it, nbrElem))
+	{
+    	if (it != main.end())
+    	    mainToSearch.insert(mainToSearch.end(), *it);
     
-    // Se o próximo iterador ultrapassar o final, não faça o insert
-    if (next(it, nbrElem) > main.end()) {
-        break;
-    }
-}
+    	if (next(it, nbrElem) > main.end())
+    	    break;
+	}
 
-
-	
 	for (iterator it = odd.begin(); it != odd.end(); )
 	{
 		iterator oddBegin = it;
@@ -368,7 +317,6 @@ template <typename T> void PmergeMe::_insertion(T& container, size_t nbrElem)
 	T pend;
 	T odd;
 	
-	// std::cout << "uninitialised value ??? \n" << std::endl;
 	iterator firstBegin = container.begin();
 	iterator firstEnd = next(container.begin(), nbrElem);
 	
@@ -392,16 +340,11 @@ template <typename T> void PmergeMe::_insertion(T& container, size_t nbrElem)
 		main.insert(main.end(), secondBegin, secondEnd);
 		
 		remainingElements -= nbrElem * 2;
-
 	}
 
 
 	if (secondEnd != container.end())
 		odd.insert(odd.end(), secondEnd, container.end());
-	
-	// _printContainer(main, RED, "Main");
-	// _printContainer(pend, YELLOW, "Pend");
-	// _printContainer(odd, GREEN, "Odd");
 	
 	/* pend insertion */
 	
@@ -410,11 +353,8 @@ template <typename T> void PmergeMe::_insertion(T& container, size_t nbrElem)
 	int inserted = 0;
 	while (inserted < elementCount)
 	{
-		// std::cout << "element count " << elementCount << std::endl;
 		jn = findJacobsthalNbr(elementCount + 1, jn); /* plus one because b1 is already in main */
-		// std::cout << "jacobsthal " << _jacobsthalNumbers[jn] << std::endl;
 		inserted = _pendInsertion(main, pend, jn, nbrElem, inserted);
-		// std::cout << "inserted (insertion) " << inserted << std::endl;
 		
 	}
 
@@ -425,25 +365,15 @@ template <typename T> void PmergeMe::_insertion(T& container, size_t nbrElem)
 	/* main become container */
 	container.clear();
 	container = main;
-
-	// _printContainer(main, BOLD_RED, "Main at the end of level ");
-	
 }
 
 template <typename T> void PmergeMe::_fordJohnsonAlgorithm(T& container, size_t nbrElem)
 {
-	//std::cout << "\n\n\n\nATENÇAO\n\n\nCondicao de recursao " <<  container.size() / nbrElem  << std::endl;
-	
-	
 	if (container.size() / nbrElem < 2)
 		return ;
 	
-	// std::cout << BOLD_CYAN << "\n !!!! \n" << RESET << std::endl;	
 	_swapPairs(container, nbrElem);
-	// std::cout << BOLD_YELLOW << "level " << nbrElem << RESET << std::endl;
-
 	_fordJohnsonAlgorithm(container, nbrElem * 2); /* recursion */
-
 	_insertion(container, nbrElem);
 }
 
