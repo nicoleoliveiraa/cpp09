@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 11:30:56 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/18 21:05:52 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/19 15:39:24 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,21 +87,24 @@ void PmergeMe::sortDeque(char **argv)
 {
 	std::deque<int> deq;
 	
+    std::cout << "\n!!!!\n";
 	clock_t startDeq = clock();
 	
+    std::cout << "\n----\n";
 	_populateContainer(deq, argv);
 
 	// std::cout << "\n\n" << deq.size() << "\n\n" << std::endl;
 	
 	_rangeSize = deq.size();
-	_printContainer(deq, BOLD_YELLOW, "Before:");
+	// _printContainer(deq, BOLD_YELLOW, "Before:");
+
 	_jacobsthalSequence(deq.size());
 	_fordJohnsonAlgorithm(deq, 1);
+	// _printContainer(deq, BOLD_YELLOW, "After:");	
 	if (!is_sorted(deq))
         std::cout << "Deque was not sorted properly.\n";
 	if (deq.size() != _rangeSize)
         std::cout << "Deque was not properly.\n" << deq.size() << " " << _rangeSize<< std::endl;
-	_printContainer(deq, BOLD_YELLOW, "After:");	
 
 	clock_t endDeq = clock();
 	double elapsedDeq = static_cast<double>(endDeq - startDeq) / CLOCKS_PER_SEC;
