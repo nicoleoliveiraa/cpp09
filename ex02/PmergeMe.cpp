@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 11:30:56 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/19 18:38:11 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:50:05 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ void PmergeMe::sortVector(char **argv)
 	_printContainer(vec, BOLD_GREEN, "Before:");
 	_jacobsthalSequence(vec.size());
 	_fordJohnsonAlgorithm(vec, 1);
+	_printContainer(vec, BOLD_GREEN, "After:");	
+	
 	if (!is_sorted(vec))
         std::cout << "Vector was not sorted properly.\n";
 	if (vec.size() != _rangeSize)
         std::cout << "Vector was not properly.\n";
-
-	_printContainer(vec, BOLD_GREEN, "After:");	
 
 	clock_t endVec = clock();
 	double elapsedVec = static_cast<double>(endVec - startVec) / CLOCKS_PER_SEC;

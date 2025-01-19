@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:56:17 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/19 18:40:53 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:49:55 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,7 +342,6 @@ template <typename T> void PmergeMe::_insertion(T& container, size_t nbrElem)
 		remainingElements -= nbrElem * 2;
 	}
 
-
 	if (secondEnd != container.end())
 		odd.insert(odd.end(), secondEnd, container.end());
 	
@@ -355,7 +354,6 @@ template <typename T> void PmergeMe::_insertion(T& container, size_t nbrElem)
 	{
 		jn = findJacobsthalNbr(elementCount + 1, jn); /* plus one because b1 is already in main */
 		inserted = _pendInsertion(main, pend, jn, nbrElem, inserted);
-		
 	}
 
 	/* odd insertion */
