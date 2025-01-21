@@ -5,7 +5,7 @@ CYAN_BOLD=\033[1m\033[36m
 BRANCO_BOLD=\033[1;37m
 BOLD_YELLOW=\033[1m\033[33m
 NC=\033[0m
-SRCS = $(wildcard *.cpp)
+SRCS = BitcoinExchange.cpp main.cpp
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:%.cpp=%.o))
 

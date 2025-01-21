@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 09:39:04 by nsouza-o          #+#    #+#             */
-/*   Updated: 2024/12/18 19:16:24 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:28:45 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,12 @@ void BitcoinExchange::openInputFile(std::string file)
 void BitcoinExchange::readAndCalculate()
 {
 	std::string line;
+	bool emptyFlag = false;
+	
 	while (getline(_inFile, line))
 	{
+		if (!line.empty())
+			emptyFlag = true;
 		if (line.empty() || line.find_first_not_of(' ') == std::string::npos ||\
 			line.find_first_not_of('	') == std::string::npos)
 			continue ;
@@ -94,6 +98,9 @@ void BitcoinExchange::readAndCalculate()
 		double nbrFloat = atof(nbr.c_str());
 		calculate(date, nbrFloat);
 	}
+	if (!emptyFlag)
+		std::cout << "Error: input is empty" << std::endl;
+		
 }
 
 size_t BitcoinExchange::validateSyntax(std::string& line)
