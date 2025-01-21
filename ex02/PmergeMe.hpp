@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:56:17 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/19 18:49:55 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:30:59 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <iterator>
 #include <time.h>
 #include <iomanip>
+#include <climits>
+#include <cerrno>
 
 
 #define RESET       "\033[0m"

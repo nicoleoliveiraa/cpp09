@@ -6,7 +6,7 @@
 /*   By: nsouza-o <nsouza-o@student.42porto.com     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 11:30:56 by nsouza-o          #+#    #+#             */
-/*   Updated: 2025/01/19 18:50:05 by nsouza-o         ###   ########.fr       */
+/*   Updated: 2025/01/21 12:33:17 by nsouza-o         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,6 @@ void PmergeMe::sortDeque(char **argv)
 	double elapsedDeq = static_cast<double>(endDeq - startDeq) / CLOCKS_PER_SEC;
 	
 	std::cout << BOLD_RED << "Time to process" << " a range of " << _rangeSize 
-			<< " elements with std::deque: " << RESET << std::fixed << std::setprecision(6) 
+			<< " elements with std::deque:  " << RESET << std::fixed << std::setprecision(6) 
 			<< elapsedDeq << " us" << std::endl;
 }
